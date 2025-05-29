@@ -45,17 +45,16 @@ def create_hamiltonian_graph(nodes, saturation):
             degrees[w] += 2
     odd_vertices = [i for i in range(nodes) if degrees[i] % 2 != 0]
 
-    while len(odd_vertices) >= 2:
-        u = odd_vertices.pop()
-        for i, v in enumerate(odd_vertices):
-            if not graph.edge_exists(u, v):
-                graph.add_edge(u, v)
-                graph.add_edge(v, u)
-                degrees[u] += 1
-                degrees[v] += 1
-                edges.add((min(u, v), max(u, v)))
-                odd_vertices.pop(i)
-                break
+    while len(odd_vertices) > 0:
+            u = odd_vertices.pop()  
+            if len(odd_vertices) > 0:
+                v = odd_vertices.pop(0) 
+                if not graph.edge_exists(u, v):
+                    graph.add_edge(u, v)
+                    graph.add_edge(v, u)
+                    degrees[u] += 1
+                    degrees[v] += 1
+                    edges.add((min(u, v), max(u, v)))
 
     return graph
 
